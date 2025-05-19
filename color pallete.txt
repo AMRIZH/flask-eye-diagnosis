@@ -1,0 +1,25 @@
+hero filter color
+#2596be
+rgb(37, 150, 190)
+
+navbar color
+bg-blue-teal-gradient
+
+    <!-- start hero -->
+    <div class="bg-gray-100">
+      <section class="cover bg-blue-teal-gradient relative bg-blue-600 px-4 sm:px-8 lg:px-16 xl:px-40 2xl:px-64 overflow-hidden py-48 flex
+      items-center min-h-screen">
+        <div class="h-full absolute top-0 left-0 z-0">
+          <img src="images/cover-bg.jpg" alt="" class="w-full h-full object-cover opacity-20">
+        </div>
+    </div>
+
+#f8f4f4
+
+
+
+
+
+This tool is for educational purposes only and should not replace professional medical advice.
+
+Please consult an eye care professional for accurate diagnosis and treatment.

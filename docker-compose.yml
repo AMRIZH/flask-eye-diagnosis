@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: eye-diagnosis
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./static/models:/app/static/models
+      - ./static/uploads:/app/static/uploads
+    restart: unless-stopped
+    environment:
+      - TF_CPP_MIN_LOG_LEVEL=2
+    command: python appKeras.py 

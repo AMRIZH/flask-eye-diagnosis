@@ -1,0 +1,137 @@
+{% extends "base.html" %} 
+{% block title %}OphthalmoAI - Home{% endblock title %}
+{% block content %}
+<!-- Hero Section -->
+<section class="relative overflow-hidden">
+  <!-- Background pattern for medical feel (subtle hexagon pattern) -->
+  <div class="absolute inset-0 z-0 opacity-10 dark:opacity-5">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" class="w-full h-full fill-current text-blue-500 dark:text-blue-400">
+      <path d="M39.1,29.2l30,17.3v34.7l-30,17.3l-30-17.3V46.6L39.1,29.2z M100,29.2l30,17.3v34.7l-30,17.3l-30-17.3V46.6L100,29.2z M160.9,29.2l30,17.3v34.7l-30,17.3l-30-17.3V46.6L160.9,29.2z M39.1,98.6l30,17.3v34.7l-30,17.3l-30-17.3v-34.7L39.1,98.6z M100,98.6l30,17.3v34.7l-30,17.3l-30-17.3v-34.7L100,98.6z M160.9,98.6l30,17.3v34.7l-30,17.3l-30-17.3v-34.7L160.9,98.6z"></path>
+    </svg>
+  </div>
+
+  <div class="container mx-auto px-4 flex-grow min-h-[calc(100vh-16rem)] relative z-10">
+    <div class="flex flex-col lg:flex-row items-center justify-between pt-16 pb-20">
+      <!-- Text Content -->
+      <div class="lg:w-1/2 lg:pr-16 order-2 lg:order-1">
+        <div class="medical-gradient dark:medical-gradient-dark w-14 h-14 rounded-full flex items-center justify-center mb-6 shadow-lg">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="white" class="w-7 h-7">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+          </svg>
+        </div>
+        <h1 class="text-4xl md:text-5xl font-bold text-slate-800 dark:text-white mb-6 leading-tight">
+          Advanced Eye <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400">Diagnostics</span> Powered by AI
+        </h1>
+        <p class="text-lg text-slate-600 dark:text-slate-300 mb-8 leading-relaxed">
+          OphthalmoAI helps medical professionals identify potential eye conditions through advanced image analysis. Upload eye images for instant AI-powered diagnosis.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a
+            href="{{ url_for('login') }}"
+            class="px-6 py-3 rounded-lg bg-white medical-gradient text-white font-medium shadow-lg hover:opacity-90 transition duration-300"
+          >
+            Get Started
+          </a>
+          <a
+            href="{{ url_for('signup') }}"
+            class="px-6 py-3 rounded-lg bg-white border border-slate-300 dark:border-slate-600 text-slate-800 dark:text-slate-200 font-medium hover:bg-slate-50 dark:hover:bg-slate-800 transition duration-300"
+          >
+            Learn More
+          </a>
+        </div>
+      </div>
+
+      <!-- Hero Image -->
+      <div class="lg:w-1/2 mb-12 lg:mb-0 order-1 lg:order-2">
+        <div class="relative">
+          <!-- Image frame with gradient border -->
+          <div class="absolute inset-0 medical-gradient dark:medical-gradient-dark rounded-3xl blur-sm transform -rotate-2 scale-[1.03] z-0"></div>
+          <img
+            src="../static/Brown-eyes-6.10.14.jpg"
+            alt="Eye diagnostics"
+            class="rounded-2xl shadow-xl relative z-10 border-4 border-white dark:border-slate-800"
+          />
+          <!-- Floating badges -->
+          <div class="absolute -right-6 -top-6 bg-white dark:bg-slate-800 rounded-xl shadow-lg p-3 z-20 rotate-3">
+            <div class="flex items-center gap-2">
+              <div class="w-3 h-3 rounded-full bg-emerald-500 pulse-animation"></div>
+              <span class="text-sm font-medium text-slate-800 dark:text-slate-200">AI Powered</span>
+            </div>
+          </div>
+          <div class="absolute -left-6 -bottom-6 bg-white dark:bg-slate-800 rounded-xl shadow-lg p-3 z-20 -rotate-3">
+            <div class="flex items-center gap-2">
+              <div class="w-3 h-3 rounded-full bg-blue-500 pulse-animation"></div>
+              <span class="text-sm font-medium text-slate-800 dark:text-slate-200">Medical Grade</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features Section -->
+<section class="bg-slate-50 dark:bg-slate-800/50 py-20">
+  <div class="container mx-auto px-4">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl font-bold text-slate-800 dark:text-white mb-4">Advanced Features</h2>
+      <p class="text-slate-600 dark:text-slate-300 max-w-3xl mx-auto">
+        OphthalmoAI combines cutting-edge artificial intelligence with medical expertise to provide accurate eye diagnostics.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16 max-w-6xl mx-auto">
+      <div class="bg-white dark:bg-slate-800 rounded-xl shadow-md p-6 border border-slate-100 dark:border-slate-700 hover:shadow-lg transition-shadow duration-300">
+        <div class="w-12 h-12 mb-4 rounded-full medical-gradient dark:medical-gradient-dark flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+          </svg>
+        </div>
+        <h3 class="text-xl font-semibold text-slate-800 dark:text-white mb-3">Accurate Diagnostics</h3>
+        <p class="text-slate-600 dark:text-slate-300">Our state-of-the-art AI models can detect potential eye conditions with high precision from high-quality images.</p>
+      </div>
+
+      <div class="bg-white dark:bg-slate-800 rounded-xl shadow-md p-6 border border-slate-100 dark:border-slate-700 hover:shadow-lg transition-shadow duration-300">
+        <div class="w-12 h-12 mb-4 rounded-full medical-gradient dark:medical-gradient-dark flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.75c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.75h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
+          </svg>
+        </div>
+        <h3 class="text-xl font-semibold text-slate-800 dark:text-white mb-3">Secure & Private</h3>
+        <p class="text-slate-600 dark:text-slate-300">All uploaded images and patient data are processed with enterprise-grade encryption and never stored without permission.</p>
+      </div>
+
+      <div class="bg-white dark:bg-slate-800 rounded-xl shadow-md p-6 border border-slate-100 dark:border-slate-700 hover:shadow-lg transition-shadow duration-300">
+        <div class="w-12 h-12 mb-4 rounded-full medical-gradient dark:medical-gradient-dark flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 0 0-10.026 0 1.106 1.106 0 0 0-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
+          </svg>
+        </div>
+        <h3 class="text-xl font-semibold text-slate-800 dark:text-white mb-3">Medical Support</h3>
+        <p class="text-slate-600 dark:text-slate-300">Receive professional medical guidance based on analysis results, with referrals to specialists when needed.</p>
+      </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="relative max-w-4xl mx-auto">
+      <div class="absolute inset-0 medical-gradient dark:medical-gradient-dark rounded-2xl transform rotate-1 scale-[1.02] opacity-70 blur-sm"></div>
+      <div class="relative bg-white dark:bg-slate-800 rounded-xl shadow-xl p-8 text-center border border-slate-100 dark:border-slate-700">
+        <h2 class="text-2xl md:text-3xl font-bold text-slate-800 dark:text-white mb-4">Ready to analyze eye conditions?</h2>
+        <p class="text-lg text-slate-600 dark:text-slate-300 mb-6 max-w-2xl mx-auto">
+          Get started with our easy-to-use diagnostic tool today and take the first step towards better eye health.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4">
+          <a href="{{ url_for('login') }}" class="px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg shadow-md transition-colors duration-300">
+            Start Analyzing
+          </a>
+          <a href="{{ url_for('signup') }}" class="px-6 py-3 bg-white hover:bg-slate-50 dark:bg-transparent dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-medium rounded-lg shadow-md border border-slate-200 dark:border-slate-600 transition-colors duration-300">
+            Create Account
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

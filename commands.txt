@@ -1,0 +1,5 @@
+npm install # install tailwindcss
+npm run watch # watch for changes
+npm run build # build for production
+npm run start # start the flask app server
+npm run minify # minify the css

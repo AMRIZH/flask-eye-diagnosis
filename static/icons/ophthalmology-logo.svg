@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle with gradient -->
+  <circle cx="256" cy="256" r="230" fill="url(#paint0_linear)" />
+  
+  <!-- Eye outline -->
+  <path d="M256 150C150 150 66 256 66 256C66 256 150 362 256 362C362 362 446 256 446 256C446 256 362 150 256 150Z" 
+        stroke="white" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- Iris -->
+  <circle cx="256" cy="256" r="70" fill="white" />
+  
+  <!-- Pupil -->
+  <circle cx="256" cy="256" r="35" fill="#0c4a6e" />
+  
+  <!-- Light reflection -->
+  <circle cx="276" cy="236" r="15" fill="white" />
+  
+  <!-- Small light reflection -->
+  <circle cx="226" cy="276" r="8" fill="white" opacity="0.8" />
+  
+  <!-- Gradient definition -->
+  <defs>
+    <linearGradient id="paint0_linear" x1="86" y1="86" x2="400" y2="400" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0ea5e9" />
+      <stop offset="0.5" stop-color="#3b82f6" />
+      <stop offset="1" stop-color="#6366f1" />
+    </linearGradient>
+  </defs>
+</svg> 

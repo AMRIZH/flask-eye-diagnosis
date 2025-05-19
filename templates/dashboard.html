@@ -1,0 +1,360 @@
+{% extends "base.html" %} 
+{% block title %}OphthalmoAI - Dashboard{% endblock title %}
+{% block content %}
+<div class="container mx-auto px-4 py-6">
+  <div class="max-w-5xl mx-auto">
+    <!-- Header with medical theme -->
+    <div class="mb-10 text-center">
+      <div class="inline-block p-2 rounded-full medical-gradient dark:medical-gradient-dark mb-4">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="white" class="w-8 h-8">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+        </svg>
+      </div>
+      <h1 class="text-3xl md:text-4xl font-bold text-slate-800 dark:text-white mb-2">
+        Eye Condition Analysis
+      </h1>
+      <p class="text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
+        Upload an image of the eye for AI-powered diagnosis. Our system will analyze and identify potential conditions.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+      <!-- Left Column - Upload Section -->
+      <div class="lg:col-span-2 order-2 lg:order-1">
+        <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6 border border-slate-200 dark:border-slate-700 h-full">
+          <h2 class="text-xl font-semibold text-slate-800 dark:text-white mb-4 flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-blue-500">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
+            </svg>
+            Upload Image
+          </h2>
+          <div
+            id="drop-zone"
+            class="border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-xl p-8 text-center cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-700/50 transition duration-300 group"
+          >
+            <input
+              type="file"
+              id="file-input"
+              class="hidden"
+              accept="image/*"
+            />
+            <div class="bg-blue-50 dark:bg-slate-700 p-3 rounded-full inline-flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-blue-500 dark:text-blue-400">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+              </svg>
+            </div>
+            <p class="text-slate-600 dark:text-slate-300 mb-2">
+              Drag & drop an eye image here<br>or
+              <span id="browse-text" class="text-blue-500 font-semibold cursor-pointer hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">browse</span>
+            </p>
+            <p class="text-xs text-slate-500 dark:text-slate-400">
+              Supported formats: JPG, PNG, JPEG<br>Max file size: 10MB
+            </p>
+          </div>
+
+          <!-- Upload Tips -->
+          <div class="mt-6 bg-slate-50 dark:bg-slate-700/30 rounded-xl p-4 border border-slate-200 dark:border-slate-700">
+            <h3 class="text-sm font-semibold text-slate-700 dark:text-slate-200 mb-2">Tips for best results:</h3>
+            <ul class="text-xs text-slate-600 dark:text-slate-400 space-y-2">
+              <li class="flex items-start gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 text-blue-500 flex-shrink-0 mt-0.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
+                Use clear, well-lit images
+              </li>
+              <li class="flex items-start gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 text-blue-500 flex-shrink-0 mt-0.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
+                Center the eye in the frame
+              </li>
+              <li class="flex items-start gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 text-blue-500 flex-shrink-0 mt-0.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
+                Avoid reflections and glare
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column - Results -->
+      <div class="lg:col-span-3 order-1 lg:order-2">
+        <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6 border border-slate-200 dark:border-slate-700">
+          <!-- Error display section -->
+          <div id="error-display" class="hidden mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-800 dark:bg-red-900/30 dark:border-red-800 dark:text-red-300">
+            <div class="flex items-start">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+              </svg>
+              <div>
+                <h3 class="font-medium mb-1">Processing Error</h3>
+                <p id="error-message" class="text-sm"></p>
+                <button onclick="showDetails()" class="text-xs underline mt-2">Show technical details</button>
+                <pre id="error-details" class="hidden mt-2 text-xs p-2 bg-red-100 dark:bg-red-900/50 rounded overflow-auto max-h-32"></pre>
+              </div>
+            </div>
+          </div>
+
+          <!-- Image Preview -->
+          <div id="default-state" class="text-center py-12">
+            <div class="mx-auto w-16 h-16 rounded-full medical-gradient flex items-center justify-center mb-4">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="white" class="w-8 h-8">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+              </svg>
+            </div>
+            <h3 class="text-lg font-medium text-slate-700 dark:text-slate-300">
+              No image uploaded yet
+            </h3>
+            <p class="text-sm text-slate-500 dark:text-slate-400 mt-2">
+              Upload an image to begin analysis
+            </p>
+          </div>
+
+          <div id="image-preview" class="hidden text-center mb-6">
+            <img id="preview" class="max-w-full max-h-[280px] mx-auto rounded-lg shadow-lg border border-slate-200 dark:border-slate-600" alt="Uploaded Image" />
+          </div>
+
+          <!-- Loading Animation -->
+          <div id="loading" class="hidden py-12 text-center">
+            <div class="mx-auto w-16 h-16 relative">
+              <div class="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-500"></div>
+              <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-blue-500">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                </svg>
+              </div>
+            </div>
+            <p class="text-slate-600 dark:text-slate-300 mt-4 font-medium">Processing your image...</p>
+            <p class="text-slate-500 dark:text-slate-400 text-sm mt-2">Running AI diagnosis</p>
+          </div>
+
+          <!-- Results Section -->
+          <div id="results" class="hidden">
+            <div class="px-4 py-3 rounded-lg medical-gradient mb-6">
+              <h2 class="text-xl font-bold text-white mb-0 text-center">
+                Analysis Results
+              </h2>
+            </div>
+            
+            <!-- Top Result -->
+            <div id="top-result" class="mb-6 bg-blue-50 dark:bg-slate-700/50 rounded-lg p-4 border border-blue-100 dark:border-slate-600">
+              <h3 class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Most Likely Condition</h3>
+              <div class="flex items-center justify-between">
+                <h4 id="top-class" class="text-xl font-bold text-slate-800 dark:text-white">
+                  <!-- Top class confidence will be inserted here -->
+                </h4>
+                <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-400 rounded-full text-sm font-medium">
+                  Primary
+                </span>
+              </div>
+            </div>
+
+            <h3 class="text-sm font-medium text-slate-600 dark:text-slate-300 mb-2">All Detected Conditions</h3>
+            <div class="overflow-hidden rounded-lg border border-slate-200 dark:border-slate-700">
+              <table class="w-full">
+                <thead>
+                  <tr class="bg-slate-50 dark:bg-slate-700/50">
+                    <th class="py-2 px-4 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Condition</th>
+                    <th class="py-2 px-4 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Confidence</th>
+                  </tr>
+                </thead>
+                <tbody id="class-table" class="divide-y divide-slate-200 dark:divide-slate-700">
+                  <!-- Class confidence rows will be inserted here -->
+                </tbody>
+              </table>
+            </div>
+
+            <div class="mt-6 text-center">
+              <button onclick="resetAnalysis()" class="inline-flex items-center gap-2 px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors duration-200">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+                </svg>
+                Analyze Another Image
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- JavaScript for Drag & Drop and Image Upload -->
+<script>
+  const dropZone = document.getElementById('drop-zone');
+  const fileInput = document.getElementById('file-input');
+  const imagePreview = document.getElementById('image-preview');
+  const preview = document.getElementById('preview');
+  const loading = document.getElementById('loading');
+  const results = document.getElementById('results');
+  const defaultState = document.getElementById('default-state');
+  const topClass = document.getElementById('top-class');
+  const classTable = document.getElementById('class-table');
+  const browseText = document.getElementById('browse-text');
+  const errorDisplay = document.getElementById('error-display');
+  const errorMessage = document.getElementById('error-message');
+  const errorDetails = document.getElementById('error-details');
+
+  // Handle file selection via browse
+  fileInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      handleFileUpload(file);
+    }
+  });
+
+  // Trigger file input when "browse" is clicked
+  browseText.addEventListener('click', () => {
+    fileInput.click();
+  });
+
+  // Handle file drop
+  dropZone.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    dropZone.classList.add('border-blue-500', 'bg-blue-50', 'dark:bg-slate-800/50');
+  });
+
+  dropZone.addEventListener('dragleave', () => {
+    dropZone.classList.remove('border-blue-500', 'bg-blue-50', 'dark:bg-slate-800/50');
+  });
+
+  dropZone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    dropZone.classList.remove('border-blue-500', 'bg-blue-50', 'dark:bg-slate-800/50');
+    const file = e.dataTransfer.files[0];
+    if (file) {
+      handleFileUpload(file);
+    }
+  });
+
+  // Function to show error details
+  function showDetails() {
+    errorDetails.classList.toggle('hidden');
+  }
+
+  // Reset analysis state
+  function resetAnalysis() {
+    defaultState.classList.remove('hidden');
+    imagePreview.classList.add('hidden');
+    results.classList.add('hidden');
+    errorDisplay.classList.add('hidden'); // Hide error display
+    fileInput.value = '';
+  }
+
+  // Show error message
+  function showError(message, details = '') {
+    loading.classList.add('hidden');
+    errorDisplay.classList.remove('hidden');
+    errorMessage.textContent = message;
+    errorDetails.textContent = details;
+  }
+
+  // Handle file upload
+  function handleFileUpload(file) {
+    // Reset any displayed errors
+    errorDisplay.classList.add('hidden');
+    
+    if (!file.type.startsWith('image/')) {
+      showError('Please upload an image file (JPG, PNG, JPEG).');
+      return;
+    }
+
+    // Hide default state
+    defaultState.classList.add('hidden');
+    
+    // Show image preview
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      preview.src = e.target.result;
+      imagePreview.classList.remove('hidden');
+    };
+    reader.readAsDataURL(file);
+
+    // Show loading animation
+    loading.classList.remove('hidden');
+    results.classList.add('hidden');
+
+    // Add debug info before upload
+    console.log("Starting file upload:", file.name, "Size:", (file.size / 1024).toFixed(2), "KB", "Type:", file.type);
+
+    // Send the file to the server for processing
+    const formData = new FormData();
+    formData.append('image', file);
+
+    fetch('/results', {
+      method: 'POST',
+      body: formData,
+    })
+      .then(response => {
+        console.log("Response status:", response.status);
+        console.log("Response headers:", [...response.headers.entries()]);
+        
+        if (!response.ok) {
+          return response.text().then(text => {
+            console.error("Error response text:", text);
+            try {
+              // Try to parse as JSON
+              return JSON.parse(text);
+            } catch (e) {
+              // If it's not JSON, throw with the text
+              throw new Error(`Server error (${response.status}): ${text || 'Unknown error'}`);
+            }
+          });
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Response data:", data);
+        
+        if (data.error) {
+          // Show error in the UI
+          showError(data.message || data.error, data.traceback || '');
+          return;
+        }
+
+        // Convert confidence to percentage
+        const topClassConfidence = (data.top_class_probability * 100).toFixed(2) + '%';
+        const allClasses = Object.entries(data.all_classes).map(([className, confidence]) => ({
+          className,
+          confidence: (confidence * 100).toFixed(2) + '%',
+          confidenceValue: confidence * 100
+        }));
+
+        // Sort by confidence
+        allClasses.sort((a, b) => b.confidenceValue - a.confidenceValue);
+
+        // Display results
+        topClass.textContent = `${data.top_class_name} (${topClassConfidence})`;
+        classTable.innerHTML = allClasses
+          .map(
+            ({ className, confidence, confidenceValue }) => `
+              <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors duration-200">
+                <td class="py-3 px-4 text-slate-800 dark:text-slate-300">${className}</td>
+                <td class="py-3 px-4">
+                  <div class="flex items-center">
+                    <div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2 mr-2 overflow-hidden">
+                      <div class="h-2 bg-blue-500 rounded-full" style="width: ${confidence}"></div>
+                    </div>
+                    <span class="text-slate-700 dark:text-slate-300 text-sm whitespace-nowrap">${confidence}</span>
+                  </div>
+                </td>
+              </tr>
+            `
+          )
+          .join('');
+
+        // Hide loading and show results
+        loading.classList.add('hidden');
+        results.classList.remove('hidden');
+      })
+      .catch((error) => {
+        console.error('Error during image processing:', error);
+        showError(error.message || 'An unknown error occurred during image processing');
+      });
+  }
+</script>
+{% endblock %}

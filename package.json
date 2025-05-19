@@ -1,0 +1,24 @@
+{
+  "name": "yoloflask",
+  "version": "1.0.0",
+  "description": "computer vision with flask project",
+  "main": "app.py",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "python appResnet.py",
+    "watch": "npx tailwindcss -i ./static/input.css -o ./static/styles.css --watch",
+    "minify": "npx tailwindcss -i ./static/input.css -o ./static/styles.css --minify",
+    "build": "npx tailwindcss -i ./static/input.css -o ./static/styles.css"
+  },
+  "author": "Amri  Zadi, Helmi Imaddudin",
+  "license": "ISC",
+  "devDependencies": {
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.17"
+  },
+  "dependencies": {
+    "flowbite": "^2.5.2",
+    "prettier-plugin-tailwindcss": "^0.6.9"
+  }
+}

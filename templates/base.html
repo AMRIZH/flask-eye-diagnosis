@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../static/styles.css" />
+    <link rel="icon" href="../static/icons/favicon.svg" type="image/svg+xml">
+    <title>{% block title %}OphthalmoAI - Eye Diagnosis System{% endblock %}</title>
+    <!-- Add Google Font for medical/modern feel -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+      // Function to toggle dark/light mode
+      function toggleMode() {
+        const html = document.documentElement;
+        const isDarkMode = html.classList.contains("dark");
+    
+        if (isDarkMode) {
+          html.classList.remove("dark");
+          localStorage.setItem("theme", "light");
+        } else {
+          html.classList.add("dark");
+          localStorage.setItem("theme", "dark");
+        }
+    
+        updateModeIcon(); // Update the icon immediately
+      }
+    
+      // Function to update the mode icon
+      function updateModeIcon() {
+        const modeIcon = document.getElementById("mode-icon");
+        const isDarkMode = document.documentElement.classList.contains("dark");
+    
+        // Update the icon source based on the mode
+        modeIcon.src = isDarkMode
+          ? "../static/icons/mode-light.svg"
+          : "../static/icons/mode-dark.svg";
+    
+        // Apply CSS filter to make mode-light.svg white in dark mode
+        if (isDarkMode) {
+          modeIcon.style.filter = "invert(1) brightness(2)";
+        } else {
+          modeIcon.style.filter = "none";
+        }
+    
+        // Prevent browser caching by appending a timestamp
+        modeIcon.src += `?v=${new Date().getTime()}`;
+      }
+    
+      // Set initial theme based on localStorage
+      document.addEventListener("DOMContentLoaded", () => {
+        const savedTheme = localStorage.getItem("theme") || "light";
+    
+        if (savedTheme === "dark") {
+          document.documentElement.classList.add("dark");
+        }
+    
+        updateModeIcon(); // Ensure the correct icon loads on page load
+      });
+    </script>
+    <style>
+      body {
+        font-family: 'Outfit', sans-serif;
+      }
+      .medical-gradient {
+        background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 50%, #6366f1 100%);
+      }
+      .medical-gradient-dark {
+        background: linear-gradient(135deg, #0c4a6e 0%, #1e3a8a 50%, #312e81 100%);
+      }
+      .pulse-animation {
+        animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+      }
+      @keyframes pulse {
+        0%, 100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.7;
+        }
+      }
+    </style>
+  </head>
+  <body class="flex flex-col min-h-screen bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
+    <!-- NAVBAR START -->
+    <nav class="bg-white dark:bg-slate-800 fixed w-full z-20 top-0 start-0 border-b border-slate-200 dark:border-slate-700 shadow-md">
+      <div class="max-w-7xl flex flex-wrap items-center justify-between mx-auto p-4">
+        <!-- Logo -->
+        <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
+          <img src="../static/icons/ophthalmology-logo.svg" class="h-10 w-10" alt="OphthalmoAI Logo">
+          <div class="flex flex-col">
+            <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">OphthalmoAI</span>
+            <span class="text-xs text-slate-500 dark:text-slate-400">Advanced Eye Diagnosis</span>
+          </div>
+        </a>
+    
+        <!-- Right Section -->
+        <div class="flex md:order-2 space-x-4 items-center">
+          
+          <!-- Dark/Light Mode Button -->
+          <button
+            type="button"
+            onclick="toggleMode()"
+            class="p-2.5 rounded-full focus:outline-none bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors duration-300"
+          >
+            <img
+              id="mode-icon"
+              src="../static/icons/mode-dark.svg"
+              alt="Mode"
+              class="w-5 h-5"
+            />
+          </button>
+    
+          <!-- Dropdown Button -->
+          <div class="relative">
+            <button
+              id="dropdownButton"
+              class="text-slate-800 bg-white dark:text-white dark:bg-slate-700 hover:bg-slate-100 dark:hover:bg-slate-600 focus:ring-4 focus:ring-offset-2 focus:ring-blue-500 focus:outline-none font-medium rounded-lg text-sm px-4 py-2.5 text-center shadow-sm transition-all duration-300 flex items-center gap-2 border border-slate-200 dark:border-slate-600"
+            >
+              {% if 'username' in session %}
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                </svg>
+                {{ session['username'] }}
+              {% else %}
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
+                </svg>
+                Login
+              {% endif %}
+            </button>
+    
+            <!-- Dropdown Menu -->
+            <div
+              id="dropdownMenu"
+              class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-lg w-48 dark:bg-slate-700 absolute right-0 mt-2 border border-slate-200 dark:border-slate-600 overflow-hidden"
+            >
+              {% if 'username' in session %}
+                <div class="px-4 py-3 text-sm text-gray-900 dark:text-white bg-slate-50 dark:bg-slate-800">
+                  <div class="font-medium">{{ session['username'] }}</div>
+                  <div class="text-xs text-slate-500 dark:text-slate-400 truncate mt-1">{{ session['email'] }}</div>
+                </div>
+                <ul class="py-1 text-sm text-gray-700 dark:text-gray-200">
+                  <li>
+                    <a
+                      href="{{ url_for('logout') }}"
+                      class="block px-4 py-2.5 hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors duration-300 flex items-center gap-2"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
+                      </svg>
+                      Logout
+                    </a>
+                  </li>
+                </ul>
+              {% else %}
+                <ul class="py-1 text-sm text-gray-700 dark:text-gray-200">
+                  <li>
+                    <a
+                      href="{{ url_for('login') }}"
+                      class="block px-4 py-2.5 hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors duration-300 flex items-center gap-2"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
+                      </svg>
+                      Login
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="{{ url_for('signup') }}"
+                      class="block px-4 py-2.5 hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors duration-300 flex items-center gap-2"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM4 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 10.374 21c-2.331 0-4.512-.645-6.374-1.766Z" />
+                      </svg>
+                      Sign Up
+                    </a>
+                  </li>
+                </ul>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <!-- NAVBAR END -->
+
+    <!-- FLASH MESSAGES -->
+    <div class="fixed top-16 left-1/2 transform -translate-x-1/2 z-30 w-full max-w-md">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="flash-message flex items-center p-4 mb-4 text-sm text-white rounded-lg shadow-lg mx-2
+              {% if category == 'success' %}bg-emerald-500{% elif category == 'error' %}bg-rose-500{% else %}bg-blue-500{% endif %} animate-fade-in">
+              <span class="flex-grow">{{ message }}</span>
+              <button onclick="this.parentElement.remove()" class="ml-4 p-1 rounded-full hover:bg-white/20 transition-colors duration-200">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+              </button>
+            </div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow mt-16 pt-4">{% block content %}{% endblock %}</main>
+
+    <!-- FOOTER START -->
+    <footer class="bg-white dark:bg-slate-800 shadow mt-auto border-t border-slate-200 dark:border-slate-700">
+      <div class="w-full mx-auto max-w-7xl p-6 md:flex md:items-center md:justify-between">
+        <div class="flex items-center">
+          <div class="medical-gradient dark:medical-gradient-dark h-8 w-8 rounded-full flex items-center justify-center shadow-lg mr-3">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="white" class="w-5 h-5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+            </svg>
+          </div>
+          <span class="text-sm text-slate-600 sm:text-center dark:text-slate-400">
+            © 2025 <a href="#" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-300">OphthalmoAI™</a>. All Rights Reserved.
+          </span>
+        </div>
+        <div class="flex mt-4 md:mt-0">
+          <ul class="flex flex-wrap items-center gap-6 text-sm font-medium text-slate-600 dark:text-slate-300">
+            <li>
+              <a
+                href="https://www.linkedin.com/in/amrizadi/"
+                target="_blank"
+                class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-300 flex items-center gap-1"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+                </svg>
+                About
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://api.whatsapp.com/send?phone=6282133680318"
+                target="_blank"
+                class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-300 flex items-center gap-1"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />
+                </svg>
+                Contact
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+    <!-- FOOTER END -->
+
+    <script>
+      // Toggle dropdown menu
+      const dropdownButton = document.getElementById("dropdownButton");
+      const dropdownMenu = document.getElementById("dropdownMenu");
+
+      dropdownButton.addEventListener("click", () => {
+        dropdownMenu.classList.toggle("hidden");
+      });
+
+      // Close dropdown when clicking outside
+      document.addEventListener("click", (event) => {
+        if (!dropdownButton.contains(event.target) && !dropdownMenu.contains(event.target)) {
+          dropdownMenu.classList.add("hidden");
+        }
+      });
+    </script>
+  </body>
+</html>
