@@ -307,6 +307,7 @@ def results():
     delete_timer = Timer(3600, delete_file, [filepath])
     delete_timer.start()
 
+
     try:
         app.logger.info("Starting image preprocessing")
         # Preprocess & infer
@@ -317,45 +318,124 @@ def results():
         model = load_keras_model()
         
         app.logger.info("Running prediction")
-        # Model dengan 1 neuron output (sigmoid), misal shape = (1,1)
-        prediction = model.predict(img_tensor)  # Contoh output: [[0.73]]
+        # Model dengan 1 neuron output (sigmoid)
+        prediction = model.predict(img_tensor, verbose=0)  # Tambah verbose=0 untuk mengurangi log
         app.logger.info(f"Prediction shape: {prediction.shape}, values: {prediction}")
         
-        score = float(prediction[0][0])        # Ambil nilai sigmoid
-        app.logger.info(f"Prediction score: {score}")
+        # Validasi output model
+        if prediction.shape[0] == 0:
+            raise ValueError("Model prediction returned empty result")
+        
+        # Ambil nilai sigmoid dan pastikan dalam range [0,1]
+        score = float(prediction[0][0])
+        score = max(0.0, min(1.0, score))  # Clamp ke range [0,1]
+        app.logger.info(f"Prediction score (clamped): {score}")
 
-        # Tentukan kelas berdasarkan threshold (0.5)
-        if score >= 0.5:
+        # Tentukan threshold yang optimal (bisa disesuaikan berdasarkan validasi model)
+        THRESHOLD = 0.5
+        
+        # Tentukan kelas berdasarkan threshold
+        if score >= THRESHOLD:
             top_class_name = 'Diabetik Retinopati'
             top_class_probability = score
         else:
             top_class_name = 'Normal'
-            # Jika ingin menampilkan "keyakinan" terhadap kelas 0,
-            # bisa pakai 1 - score (opsional).
             top_class_probability = 1.0 - score
 
         # Buat dictionary probabilitas untuk kedua kelas
+        normal_prob = 1.0 - score
+        diabetic_prob = score
+        
         all_classes = {
-            'Normal': 1.0 - score,
-            'Diabetik Retinopati': score
+            'Normal': round(normal_prob, 4),
+            'Diabetik Retinopati': round(diabetic_prob, 4)
         }
 
-        app.logger.info(f"Returning results: {top_class_name} with confidence {top_class_probability:.4f}")
+        # Validasi probabilitas
+        total_prob = normal_prob + diabetic_prob
+        if abs(total_prob - 1.0) > 0.001:  # Toleransi untuk floating point
+            app.logger.warning(f"Probabilities don't sum to 1.0: {total_prob}")
+
+        app.logger.info(f"Classification result: {top_class_name} with confidence {top_class_probability:.4f}")
+        
         return jsonify({
+            'success': True,
             'top_class_name': top_class_name,
-            'top_class_probability': top_class_probability,
+            'top_class_probability': round(top_class_probability, 4),
             'all_classes': all_classes,
+            'threshold_used': THRESHOLD,
+            'raw_score': round(score, 4),
             'image_url': f'/static/uploads/{filename}'
         })
+
+    except ValueError as ve:
+        app.logger.error(f"Validation error: {str(ve)}")
+        return jsonify({
+            'success': False,
+            'error': 'Validation failed', 
+            'message': str(ve)
+        }), 400
+
     except Exception as e:
         app.logger.error(f"Inference failed: {str(e)}", exc_info=True)
         import traceback
         app.logger.error(traceback.format_exc())
         return jsonify({
+            'success': False,
             'error': 'Inference failed', 
             'message': str(e),
-            'traceback': traceback.format_exc()
+            'traceback': traceback.format_exc() if app.debug else None
         }), 500
+
+    # try:
+    #     app.logger.info("Starting image preprocessing")
+    #     # Preprocess & infer
+    #     img_tensor = preprocess_image(filepath)
+        
+    #     app.logger.info("Loading model")
+    #     # Get model and make prediction
+    #     model = load_keras_model()
+        
+    #     app.logger.info("Running prediction")
+    #     # Model dengan 1 neuron output (sigmoid), misal shape = (1,1)
+    #     prediction = model.predict(img_tensor)  # Contoh output: [[0.73]]
+    #     app.logger.info(f"Prediction shape: {prediction.shape}, values: {prediction}")
+        
+    #     score = float(prediction[0][0])        # Ambil nilai sigmoid
+    #     app.logger.info(f"Prediction score: {score}")
+
+    #     # Tentukan kelas berdasarkan threshold (0.5)
+    #     if score >= 0.5:
+    #         top_class_name = 'Diabetik Retinopati'
+    #         top_class_probability = score
+    #     else:
+    #         top_class_name = 'Normal'
+    #         # Jika ingin menampilkan "keyakinan" terhadap kelas 0,
+    #         # bisa pakai 1 - score (opsional).
+    #         top_class_probability = 1.0 - score
+
+    #     # Buat dictionary probabilitas untuk kedua kelas
+    #     all_classes = {
+    #         'Normal': 1.0 - score,
+    #         'Diabetik Retinopati': score
+    #     }
+
+    #     app.logger.info(f"Returning results: {top_class_name} with confidence {top_class_probability:.4f}")
+    #     return jsonify({
+    #         'top_class_name': top_class_name,
+    #         'top_class_probability': top_class_probability,
+    #         'all_classes': all_classes,
+    #         'image_url': f'/static/uploads/{filename}'
+    #     })
+    # except Exception as e:
+    #     app.logger.error(f"Inference failed: {str(e)}", exc_info=True)
+    #     import traceback
+    #     app.logger.error(traceback.format_exc())
+    #     return jsonify({
+    #         'error': 'Inference failed', 
+    #         'message': str(e),
+    #         'traceback': traceback.format_exc()
+    #     }), 500
 
 
 # Login page
